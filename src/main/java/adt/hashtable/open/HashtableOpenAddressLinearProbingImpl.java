@@ -85,12 +85,10 @@ public class HashtableOpenAddressLinearProbingImpl<T extends Storable> extends A
         if (!this.isEmpty() && element != null) {
             int probe = 0;
             int index = this.getIndexHash(element, probe);
-            boolean notFound = true;
 
-            while (probe != this.capacity() && this.table[index] != null && notFound) {
+            while (probe != this.capacity() && this.table[index] != null && indexOf == -1) {
                 if (this.table[index].equals(element)) {
                     indexOf = index;
-                    notFound = false;
                 } else {
                     probe++;
                     index = this.getIndexHash(element, probe);
@@ -101,6 +99,12 @@ public class HashtableOpenAddressLinearProbingImpl<T extends Storable> extends A
         return indexOf;
     }
 
+    /**
+     * Return index through the hash code.
+     * @param element
+     * @param probe
+     * @return
+     */
     private int getIndexHash(T element, int probe) {
         return ((HashFunctionLinearProbing<T>) this.hashFunction).hash(element, probe);
     }

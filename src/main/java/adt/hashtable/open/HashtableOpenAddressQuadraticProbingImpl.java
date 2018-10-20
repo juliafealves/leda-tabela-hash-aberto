@@ -102,6 +102,12 @@ public class HashtableOpenAddressQuadraticProbingImpl<T extends Storable>
         return indexOf;
     }
 
+    /**
+     * Return index through the hash code.
+     * @param element
+     * @param probe
+     * @return
+     */
     private int getIndexHash(T element, int probe) {
         return ((HashFunctionQuadraticProbing<T>) this.hashFunction).hash(element, probe);
     }
