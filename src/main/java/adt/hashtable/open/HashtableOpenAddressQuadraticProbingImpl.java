@@ -12,32 +12,43 @@ public class HashtableOpenAddressQuadraticProbingImpl<T extends Storable>
         this.initiateInternalTable(size);
     }
 
+    /**
+     * Inserts a non-null object into the hash table. The hashtable does not work with duplicated elements. Every time
+     * that the insert is called, if there is a collision, then the attribute COLLISION of this hashtable is incremented.
+     */
     @Override
     public void insert(T element) {
         if (this.isFull()) {
             throw new HashtableOverflowException();
         }
 
-        int probe = 0;
-        boolean notInserted = true;
+        if (element != null) {
+            int probe = 0;
+            boolean notInserted = true;
 
-        while (probe != this.capacity() && notInserted) {
-            int index = this.getIndexHash(element, probe);
+            while (probe != this.capacity() && notInserted) {
+                int index = this.getIndexHash(element, probe);
 
-            if (this.table[index] == null || this.table[index].equals(new DELETED())) {
-                this.table[index] = element;
-                this.elements++;
-                notInserted = false;
-            } else {
-                probe++;
-                this.COLLISIONS++;
+                if (this.table[index] == null || this.table[index].equals(new DELETED())) {
+                    this.table[index] = element;
+                    this.elements++;
+                    notInserted = false;
+                } else if (this.table[index].equals(element)) {
+                    notInserted = false;
+                } else {
+                    probe++;
+                    this.COLLISIONS++;
+                }
             }
         }
     }
 
+    /**
+     * Removes an element from the hash table.
+     */
     @Override
     public void remove(T element) {
-        if (!this.isEmpty()) {
+        if (!this.isEmpty() && element != null) {
             int index = this.indexOf(element);
 
             if (index != -1) {
@@ -47,11 +58,14 @@ public class HashtableOpenAddressQuadraticProbingImpl<T extends Storable>
         }
     }
 
+    /**
+     * Searches a given element in the hash table. If it is not in the table, the hash table returns null.
+     */
     @Override
     public T search(T element) {
         T elementFound = null;
 
-        if (!this.isEmpty()) {
+        if (!this.isEmpty() && element != null) {
             int index = this.indexOf(element);
 
             if (index != -1) {
@@ -62,11 +76,14 @@ public class HashtableOpenAddressQuadraticProbingImpl<T extends Storable>
         return elementFound;
     }
 
+    /**
+     * Searches the index of an element in the hashtable. It returns -1 if the element is not in the hashtable.
+     */
     @Override
     public int indexOf(T element) {
         int indexOf = -1;
 
-        if (!this.isEmpty()) {
+        if (!this.isEmpty() && element != null) {
             int probe = 0;
             int index = this.getIndexHash(element, probe);
             boolean notFound = true;
