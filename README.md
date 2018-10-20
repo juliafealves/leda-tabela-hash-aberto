@@ -10,6 +10,6 @@ Implementação com [espelhamento linear](http://www.lcad.icmc.usp.br/~nonato/ED
 
 Ilustração:
 
-![Tabela Hash Fechado](hashing.png)
+![Tabela Hash Fechado](hash.png)
 
 Explicação do roteiro: [Vídeo](https://youtu.be/Ajh1QvO2GjM)
